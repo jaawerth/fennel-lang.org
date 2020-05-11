@@ -4,7 +4,7 @@ TAGS := $(shell git --git-dir=./fennel/.git tag -l | grep '^[0-9]' | grep -v - |
 TAGDIRS := master $(foreach tag, $(TAGS), v${tag})
 
 # which fennel/$.md files build a tag index
-TAGSOURCES := changelog reference api
+TAGSOURCES := changelog reference api setup
 
 HTML := tutorial.html api.html reference.html lua-primer.html changelog.html
 LUA := generate.lua fennelview.lua
@@ -38,6 +38,7 @@ reference.html: fennel/reference.md ; $(PANDOC) --toc -o $@ $^
 v%/fennel:
 	git clone --branch $* fennel $@
 	make -C $(@D) fennel
+	touch setup.md # not all tags have this
 
 master/fennel:
 	git clone --branch master fennel $@
